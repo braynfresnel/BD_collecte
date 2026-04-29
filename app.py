@@ -92,7 +92,6 @@ elif st.session_state.etape == 2:
             st.session_state.infos_perso = {}
             # On pourrait ajouter un bouton pour recommencer ou utiliser un timer
             if st.button("Faire une nouvelle saisie",key="bouton_1"):
-                st.button("Faire une nouvelle saisie",key="bouton_2"):
                 st.rerun()
 
 # --- VISUALISATION (Dans la barre latérale) ---
