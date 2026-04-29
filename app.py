@@ -7,7 +7,7 @@ from datetime import datetime
 FICHIER_DONNEES = "donnees_collecte.csv"
 
 # Configuration de la page
-st.set_page_config(page_title="BD collecte", page_icon="🏥")
+st.set_page_config(page_title="BD collecte", page_icon=" ")
 
 # --- INITIALISATION DE LA MÉMOIRE (SESSION STATE) ---
 # On crée des variables vides si elles n'existent pas encore
@@ -16,7 +16,7 @@ if 'etape' not in st.session_state:
 if 'infos_perso' not in st.session_state:
     st.session_state.infos_perso = {}
 
-st.title("🏥 BD collecte - Agence Hospitalière")
+st.title(" BD collecte - Agence Hospitalière")
 
 # --- ÉTAPE 1 : INFORMATIONS PERSONNELLES ---
 if st.session_state.etape == 1:
@@ -28,7 +28,7 @@ if st.session_state.etape == 1:
         ville = st.text_input("Ville", value=st.session_state.infos_perso.get('ville', ''))
         email = st.text_input("Email", value=st.session_state.infos_perso.get('email', ''))
         
-        submit1 = st.form_submit_button("Suivant ➡️")
+        submit1 = st.form_submit_button("Suivant ")
         
         if submit1:
             if nom and prenom and ville and email:
@@ -56,9 +56,9 @@ elif st.session_state.etape == 2:
         
         col1, col2 = st.columns(2)
         with col1:
-            retour = st.form_submit_button("⬅️ Retour")
+            retour = st.form_submit_button(" Retour")
         with col2:
-            valider = st.form_submit_button("Enregistrer définitivement ✅")
+            valider = st.form_submit_button("Enregistrer définitivement ")
 
         if retour:
             st.session_state.etape = 1
@@ -91,7 +91,8 @@ elif st.session_state.etape == 2:
             st.session_state.etape = 1
             st.session_state.infos_perso = {}
             # On pourrait ajouter un bouton pour recommencer ou utiliser un timer
-            if st.button("Faire une nouvelle saisie"):
+            if st.button("Faire une nouvelle saisie",key="bouton_1"):
+                st.button("Faire une nouvelle saisie",key="bouton_2"):
                 st.rerun()
 
 # --- VISUALISATION (Dans la barre latérale) ---
