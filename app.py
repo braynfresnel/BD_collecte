@@ -7,14 +7,14 @@ from datetime import datetime
 FICHIER_DONNEES = "donnees_collecte.csv"
 
 # Configuration de la page (Mode large pour mieux voir le tableau)
-st.set_page_config(page_title="BD collecte", page_icon="🏥", layout="wide")
+st.set_page_config(page_title="BD collecte", page_icon=" ", layout="wide")
 
-st.title("🏥 BD collecte - Agence Hospitalière")
+st.title("BD collecte - Agence Hospitalière")
 st.subheader("Formulaire de collecte quotidienne")
 
 # --- ZONE DE SAISIE (PRINCIPALE) ---
 with st.form("form_collecte", clear_on_submit=True):
-    st.write("### 📝 Remplir les informations")
+    st.write("###  Remplir les informations")
     
     col_a, col_b = st.columns(2)
     with col_a:
@@ -59,16 +59,16 @@ if submit:
                 df_nouveau.to_csv(FICHIER_DONNEES, mode='a', header=False, index=False, encoding='utf-8')
             
             # Message de succès (S'affichera bien car il n'y a plus de st.rerun)
-            st.success(f"✅ Les informations de {prenom} {nom} ont été enregistrées avec succès !")
+            st.success(f" Les informations de {prenom} {nom} ont été enregistrées avec succès !")
             st.balloons() 
             
         except Exception as e:
             st.error(f"❌ Erreur technique lors de l'enregistrement : {e}")
     else:
-        st.error("⚠️ Attention : Veuillez remplir tous les champs du formulaire.")
+        st.error(" Attention : Veuillez remplir tous les champs du formulaire.")
 
 # --- ZONE D'ADMINISTRATION (SIDEBAR) ---
-st.sidebar.header("🔐 Administration")
+st.sidebar.header(" Administration")
 
 # Option pour afficher les données
 afficher = st.sidebar.checkbox("Afficher la base de données")
@@ -84,19 +84,19 @@ if afficher:
         
         # Affichage du tableau sur la page principale
         st.write("---")
-        st.write("### 📊 Liste des personnes enregistrées")
+        st.write("###  Liste des personnes enregistrées")
         st.dataframe(df_affiche, use_container_width=True)
         
         # Préparation du bouton de téléchargement
         csv_data = df_affiche.to_csv(index=False).encode('utf-8')
         st.sidebar.download_button(
-            label="📥 Télécharger le fichier CSV",
+            label="Télécharger le fichier CSV",
             data=csv_data,
             file_name=f"collecte_{datetime.now().strftime('%d_%m_%Y')}.csv",
             mime="text/csv"
         )
     else:
-        st.sidebar.info("ℹ️ Aucune donnée n'a encore été enregistrée.")
+        st.sidebar.info(" Aucune donnée n'a encore été enregistrée.")
 
    
      
