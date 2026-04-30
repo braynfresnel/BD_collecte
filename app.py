@@ -44,6 +44,7 @@ if submit:
                 df_nouveau.to_csv(FICHIER_DONNEES, index=False, encoding='utf-8')
             else:
                 df_nouveau.to_csv(FICHIER_DONNEES, mode='a', header=False, index=False, encoding='utf-8')
+            st.balloons()
             st.success("✅ Enregistré avec succès !")
             st.rerun() # Force la mise à jour pour voir le résultat
         except Exception as e:
