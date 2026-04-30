@@ -36,7 +36,12 @@ if submit:
             "Arrivée": heure_arrivee.strftime("%H:%M"), # Formatage de l'heure
             "Fin": heure_fin.strftime("%H:%M")
         }
-        
+        # Section pour visualiser ou télécharger les données (optionnel)
+st.sidebar.header("Administration")
+if st.sidebar.checkbox("Afficher les données collectées"):
+    if os.path.isfile(FICHIER_DONNEES):
+        df_affiche = pd.read_csv(FICHIER_DONNEES)
+        st.write(df_affiche)
         df_nouveau = pd.DataFrame([nouvelle_donnee])
         
         try:
