@@ -3,65 +3,49 @@ import pandas as pd
 import os
 from datetime import datetime
 
-# Nom du fichier
 FICHIER_DONNEES = "donnees_collecte.csv"
 
 st.set_page_config(page_title="BD collecte", page_icon=" ")
 
 st.title("BD collecte - Agence Hospitalière")
-st.subheader("Formulaire de collecte quotidienne des données")
 
-# --- FORMULAIRE ---
 with st.form("form_collecte", clear_on_submit=True):
     nom = st.text_input("Nom")
     prenom = st.text_input("Prénom")
     ville = st.text_input("Ville")
     email = st.text_input("Email")
     
+    # --- AJOUT DES HEURES ---
+    col1, col2 = st.columns(2)
+    with col1:
+        heure_arrivee = st.time_input("Heure d'arrivée", value=None)
+    with col2:
+        heure_fin = st.time_input("Heure de fin", value=None)
+    
     submit = st.form_submit_button("Enregistrer les données")
 
-# --- TRAITEMENT DES DONNÉES ---
 if submit:
-    if nom and prenom and ville and email:
+    # Vérification que tous les champs sont remplis (y compris les heures)
+    if nom and prenom and ville and email and heure_arrivee and heure_fin:
         nouvelle_donnee = {
-            "Date": datetime.now().strftime("%d/%m/%Y %H:%M"),
+            "Date": datetime.now().strftime("%d/%m/%Y"),
             "Nom": nom,
             "Prenom": prenom,
             "Ville": ville,
-            "Email": email
+            "Email": email,
+            "Arrivée": heure_arrivee.strftime("%H:%M"), # Formatage de l'heure
+            "Fin": heure_fin.strftime("%H:%M")
         }
         
         df_nouveau = pd.DataFrame([nouvelle_donnee])
         
-        # Sauvegarde sécurisée
         try:
             if not os.path.isfile(FICHIER_DONNEES):
                 df_nouveau.to_csv(FICHIER_DONNEES, index=False, encoding='utf-8')
             else:
                 df_nouveau.to_csv(FICHIER_DONNEES, mode='a', header=False, index=False, encoding='utf-8')
-            
-            st.success(f" Données enregistrées pour {prenom} {nom} !")
+            st.success(f" Enregistré pour {prenom} {nom} ({heure_arrivee} - {heure_fin})")
         except Exception as e:
-            st.error(f"Erreur lors de l'enregistrement : {e}")
+            st.error(f"Erreur : {e}")
     else:
-        st.error(" Veuillez remplir tous les champs avant de valider.")
-
-# --- ADMINISTRATION ---
-st.sidebar.header("Administration")
-if st.sidebar.checkbox("Afficher les données collectées"):
-    if os.path.isfile(FICHIER_DONNEES):
-        # On utilise une clé différente pour éviter les conflits de lecture/écriture
-        df_affiche = pd.read_csv(FICHIER_DONNEES)
-        st.write(df_affiche)
-        
-        # Préparation du téléchargement
-        csv_data = df_affiche.to_csv(index=False).encode('utf-8')
-        st.sidebar.download_button(
-            label=" Télécharger le fichier CSV",
-            data=csv_data,
-            file_name="collecte_hospitaliere.csv",
-            mime="text/csv"
-        )
-    else:
-        st.sidebar.info("Aucune donnée enregistrée pour le moment.")
-     
+        st.error(" Veuillez remplir tous les champs, y compris les heures.")
